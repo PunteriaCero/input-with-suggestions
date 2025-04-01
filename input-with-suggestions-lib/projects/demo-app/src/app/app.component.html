@@ -1,0 +1,33 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+  <h1>Input with Suggestions Demo</h1>
+  
+  <div class="demo-section">
+    <h2>Using the component:</h2>
+    <div class="input-container">
+      <lib-input-suggestions
+        [(value)]="textValue"
+        [suggestions]="dataItems"
+        [placeholder]="'Enter a query...'"
+        (suggestionSelected)="onSuggestionSelected($event)"
+      ></lib-input-suggestions>
+    </div>
+    
+    <div class="results-container">
+      <h3>Current value:</h3>
+      <div class="result-box">{{ textValue }}</div>
+      
+      <h3>Last selected suggestion:</h3>
+      <div class="result-box" *ngIf="selectedItem">
+        <p><strong>Name:</strong> {{ selectedItem.name }}</p>
+        <p><strong>Description:</strong> {{ selectedItem.description }}</p>
+        <p><strong>Format:</strong> {{ selectedItem.format }}</p>
+        <p *ngIf="selectedItem.id"><strong>ID:</strong> {{ selectedItem.id }}</p>
+      </div>
+      <div class="result-box" *ngIf="!selectedItem">
+        No item selected yet
+      </div>
+    </div>
+  </div>
+</div>
+

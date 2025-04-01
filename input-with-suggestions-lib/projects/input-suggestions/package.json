@@ -1,0 +1,21 @@
+{
+  "name": "input-suggestions",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "@angular/forms": "^7.2.0"
+  },
+  "description": "Custom textbox with suggestions for Angular applications",
+  "keywords": ["angular", "textbox", "input", "suggestions", "autocomplete"],
+  "author": "Mateo Codesido (Kurtnox)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PunteriaCero/input-with-suggestions"
+  },
+  "bugs": {
+    "url": "https://github.com/PunteriaCero/input-with-suggestions"
+  },
+  "homepage": "https://github.com/PunteriaCero/input-with-suggestions"
+}
