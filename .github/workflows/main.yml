@@ -22,8 +22,6 @@ jobs:
           git config --global user.email "mcodesido@baufest.com"
           git config --global user.name "Mateo Codesido"
           
-      - name: Bump Version
-        run: npm version ${{github.event.release.tag_name}}
 
       - name: Install Dependencies
         run: npm ci
