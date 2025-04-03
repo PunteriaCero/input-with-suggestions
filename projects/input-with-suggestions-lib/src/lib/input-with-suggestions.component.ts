@@ -11,9 +11,9 @@ export interface SuggestionItem {
 }
 
 @Component({
-  selector: 'lib-input-suggestions',
+  selector: 'input-with-suggestions',
   template: `
-    <div class="input-suggestions-container">
+    <div class="input-with-suggestions-container">
       <textarea
         type="text"
         [(ngModel)]="value"
@@ -102,7 +102,7 @@ export interface SuggestionItem {
   `],
   encapsulation: ViewEncapsulation.None
 })
-export class InputSuggestionsComponent implements OnInit {
+export class InputWithSuggestionsComponent implements OnInit {
   /**
    * Input array of suggestion items
    */

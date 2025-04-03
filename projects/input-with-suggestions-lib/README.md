@@ -5,7 +5,7 @@ A customizable Angular component providing a textbox with suggestion buttons dis
 ## Installation
 
 ```bash
-npm install input-suggestions --save
+npm install input-with-suggestions --save
 ```
 
 ## Features
@@ -22,12 +22,12 @@ npm install input-suggestions --save
 ### 1. Import the module
 
 ```typescript
-import { InputSuggestionsModule } from 'input-suggestions';
+import { InputWithSuggestionsModule } from 'input-with-suggestions';
 
 @NgModule({
   imports: [
     // ...
-    InputSuggestionsModule
+    InputWithSuggestionsModule
   ],
   // ...
 })
@@ -37,19 +37,19 @@ export class AppModule { }
 ### 2. Use the component in your template
 
 ```html
-<lib-input-suggestions
+<lib-input-with-suggestions
   [(value)]="textValue"
   [suggestions]="dataItems"
   [placeholder]="'Search...'"
   (suggestionSelected)="onSuggestionSelected($event)">
-</lib-input-suggestions>
+</lib-input-with-suggestions>
 ```
 
 ### 3. In your component
 
 ```typescript
 import { Component } from '@angular/core';
-import { SuggestionItem } from 'input-suggestions';
+import { SuggestionItem } from 'input-with-suggestions';
 
 @Component({
   selector: 'app-my-component',
@@ -108,11 +108,11 @@ interface SuggestionItem {
 
 ## Building
 
-Run `ng build input-suggestions` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `ng build input-with-suggestions` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Publishing
 
-After building your library with `ng build input-suggestions`, go to the dist folder `cd dist/input-suggestions` and run `npm publish`.
+After building your library with `ng build input-with-suggestions`, go to the dist folder `cd dist/input-with-suggestions` and run `npm publish`.
 
 ## License
 

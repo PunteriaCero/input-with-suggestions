@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SuggestionItem } from 'input-suggestions';
+import { SuggestionItem } from 'input-with-suggestions';
 
 @Component({
   selector: 'app-root',
