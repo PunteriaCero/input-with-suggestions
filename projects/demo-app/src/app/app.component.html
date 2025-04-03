@@ -4,12 +4,12 @@
   <div class="demo-section">
     <h2>Using the component:</h2>
     <div class="input-container">
-      <lib-input-suggestions
+      <input-with-suggestions
         [(value)]="textValue"
         [suggestions]="dataItems"
         [placeholder]="'Enter a query...'"
         (suggestionSelected)="onSuggestionSelected($event)"
-      ></lib-input-suggestions>
+      ></input-with-suggestions>
     </div>
     
     <div class="results-container">

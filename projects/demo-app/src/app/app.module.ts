@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { InputSuggestionsModule } from 'input-suggestions';
+import { InputWithSuggestionsModule } from 'input-with-suggestions';
 
 @NgModule({
   declarations: [
@@ -12,7 +12,7 @@ import { InputSuggestionsModule } from 'input-suggestions';
   imports: [
     BrowserModule,
     FormsModule,
-    InputSuggestionsModule
+    InputWithSuggestionsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

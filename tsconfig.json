@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "input-suggestions": [
-        "dist/input-suggestions"
+      "input-with-suggestions": [
+        "dist/input-with-suggestions"
       ],
-      "input-suggestions/*": [
-        "dist/input-suggestions/*"
+      "input-with-suggestions/*": [
+        "dist/input-with-suggestions/*"
       ]
     }
   }
