@@ -16,22 +16,26 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
-          
+
       - name: Set Global Git Config
         run: |
           git config --global user.email "mcodesido@baufest.com"
           git config --global user.name "Mateo Codesido"
-          
+
       - name: Bump Version
-        run: npm version ${{github.event.release.tag_name}}
+        run: npm version ${{ github.event.release.tag_name }}
+        working-directory: projects/input-with-suggestions-lib
 
       - name: Install Dependencies
         run: npm ci
+        working-directory: projects/input-with-suggestions-lib
 
       - name: Build
         run: npm run build
+        working-directory: projects/input-with-suggestions-lib
 
       - name: Publish Package
         run: npm publish
+        working-directory: projects/input-with-suggestions-lib
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
