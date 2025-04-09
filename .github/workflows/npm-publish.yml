@@ -27,23 +27,37 @@ jobs:
           
       - name: Update package.json for compatible Angular version
         run: |
-          npm pkg set devDependencies.@angular/cli="14.2.0"
-          npm pkg set devDependencies.@angular/compiler="14.2.0"
-          npm pkg set devDependencies.@angular/compiler-cli="14.2.0"
-          npm pkg set devDependencies.@angular/core="14.2.0"
-          npm pkg set devDependencies.@angular/common="14.2.0"
-          npm pkg set devDependencies.@angular-devkit/build-angular="14.2.0"
-          npm pkg set devDependencies.ng-packagr="14.2.0"
-          npm pkg set devDependencies.typescript="~4.6.4"
-          npm pkg set peerDependencies.@angular/core="^14.0.0"
-          npm pkg set peerDependencies.@angular/common="^14.0.0"
-          npm pkg set peerDependencies.@angular/forms="^14.0.0"
+          node -e '
+            const fs = require("fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            
+            // Update all devDependencies
+            pkg.devDependencies["@angular/cli"] = "14.2.0";
+            pkg.devDependencies["@angular/compiler"] = "14.2.0";
+            pkg.devDependencies["@angular/compiler-cli"] = "14.2.0";
+            pkg.devDependencies["@angular/core"] = "14.2.0";
+            pkg.devDependencies["@angular/common"] = "14.2.0";
+            pkg.devDependencies["@angular/platform-browser"] = "14.2.0";
+            pkg.devDependencies["@angular/platform-browser-dynamic"] = "14.2.0";
+            pkg.devDependencies["@angular/router"] = "14.2.0";
+            pkg.devDependencies["@angular/forms"] = "14.2.0";
+            pkg.devDependencies["@angular-devkit/build-angular"] = "14.2.0";
+            pkg.devDependencies["ng-packagr"] = "14.2.0";
+            pkg.devDependencies["typescript"] = "~4.6.4";
+            
+            // Update peerDependencies
+            pkg.peerDependencies["@angular/core"] = "^14.0.0";
+            pkg.peerDependencies["@angular/common"] = "^14.0.0";
+            pkg.peerDependencies["@angular/forms"] = "^14.0.0";
+            
+            fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
+          '
       
       - name: Generate new package-lock.json
-        run: npm install --package-lock-only
+        run: npm install --package-lock-only --legacy-peer-deps
       
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
       
       - name: Install Angular CLI globally and build
         run: |
