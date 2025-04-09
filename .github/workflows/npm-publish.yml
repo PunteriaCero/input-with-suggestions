@@ -76,6 +76,38 @@ jobs:
       - name: Build library directly
         run: |
           # Create necessary tsconfig files if they don't exist
+          if [ ! -f "tsconfig.json" ]; then
+            echo '{
+              "compileOnSave": false,
+              "compilerOptions": {
+                "baseUrl": "./",
+                "outDir": "./dist/out-tsc",
+                "sourceMap": true,
+                "declaration": false,
+                "downlevelIteration": true,
+                "experimentalDecorators": true,
+                "module": "es2020",
+                "moduleResolution": "node",
+                "importHelpers": true,
+                "target": "es2015",
+                "typeRoots": [
+                  "node_modules/@types"
+                ],
+                "lib": [
+                  "es2018",
+                  "dom"
+                ],
+                "skipLibCheck": true
+              },
+              "angularCompilerOptions": {
+                "enableI18nLegacyMessageIdFormat": false,
+                "strictInjectionParameters": true,
+                "strictInputAccessModifiers": true,
+                "strictTemplates": true
+              }
+            }' > tsconfig.json
+          fi
+
           if [ ! -f "tsconfig.lib.json" ]; then
             echo '{
               "extends": "./tsconfig.json",
