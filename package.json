@@ -1,6 +1,6 @@
 {
   "name": "input-with-suggestions-lib",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A customizable Angular component for text input with dynamic suggestions",
   "keywords": [
     "angular",
