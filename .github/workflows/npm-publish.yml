@@ -20,20 +20,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Setup Node.js 14
+      - name: Setup Node.js 15
         uses: actions/setup-node@v3
         with:
           node-version: '15.2.0'  
           
       - name: Update package.json for compatible Angular version
         run: |
-          npm pkg set devDependencies.@angular/cli="15.2.0"
-          npm pkg set devDependencies.@angular/compiler="15.2.0"
-          npm pkg set devDependencies.@angular/compiler-cli="15.2.0"
-          npm pkg set devDependencies.@angular/core="15.2.0"
-          npm pkg set devDependencies.@angular/common="15.2.0"
-          npm pkg set devDependencies.@angular-devkit/build-angular="15.2.0"
-          npm pkg set devDependencies.ng-packagr="15.2.0"
+          npm pkg set devDependencies.@angular/cli="14.2.0"
+          npm pkg set devDependencies.@angular/compiler="14.2.0"
+          npm pkg set devDependencies.@angular/compiler-cli="14.2.0"
+          npm pkg set devDependencies.@angular/core="14.2.0"
+          npm pkg set devDependencies.@angular/common="14.2.0"
+          npm pkg set devDependencies.@angular-devkit/build-angular="14.2.0"
+          npm pkg set devDependencies.ng-packagr="14.2.0"
           npm pkg set devDependencies.typescript="~4.6.4"
           npm pkg set peerDependencies.@angular/core="^14.0.0"
           npm pkg set peerDependencies.@angular/common="^14.0.0"
