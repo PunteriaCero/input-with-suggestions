@@ -75,6 +75,36 @@ jobs:
         
       - name: Build library directly
         run: |
+          # Create necessary tsconfig files if they don't exist
+          if [ ! -f "tsconfig.lib.json" ]; then
+            echo '{
+              "extends": "./tsconfig.json",
+              "compilerOptions": {
+                "outDir": "./out-tsc/lib",
+                "declaration": true,
+                "declarationMap": true,
+                "inlineSources": true,
+                "types": []
+              },
+              "exclude": [
+                "src/test.ts",
+                "**/*.spec.ts"
+              ]
+            }' > tsconfig.lib.json
+          fi
+
+          if [ ! -f "tsconfig.lib.prod.json" ]; then
+            echo '{
+              "extends": "./tsconfig.lib.json",
+              "compilerOptions": {
+                "declarationMap": false
+              },
+              "angularCompilerOptions": {
+                "compilationMode": "partial"
+              }
+            }' > tsconfig.lib.prod.json
+          fi
+
           npx ng-packagr -p ng-package.json
 
       - name: Build
