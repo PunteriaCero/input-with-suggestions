@@ -1,10 +1,14 @@
 {
   "name": "input-with-suggestions-lib",
-  "version": "0.0.4",
+  "version": "0.1.8",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build input-with-suggestions-lib",
+    "npm:pack": "cd dist && npm pack",
+    "package": "npm run build:lib && npm run npm:pack",
+    "publish": "npm run build:lib && cd dist && npm publish",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

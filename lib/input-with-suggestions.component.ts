@@ -13,7 +13,7 @@ export interface SuggestionItem {
 @Component({
   selector: 'input-with-suggestions',
   template: `
-    <div class="input-with-suggestions-container">
+    <div class="input-suggestions-container">
       <textarea
         type="text"
         [(ngModel)]="value"
