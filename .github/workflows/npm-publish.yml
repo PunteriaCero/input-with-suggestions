@@ -29,9 +29,13 @@ jobs:
           git config --global user.email "mcodesido@baufest.com"
           git config --global user.name "Mateo Codesido"
           
-
       - name: Install Dependencies
-        run: npm ci --legacy-peer-deps
+        run: |
+          if [ ! -f package-lock.json ]; then
+            npm install --legacy-peer-deps
+          else
+            npm ci --legacy-peer-deps
+          fi
 
       - name: Build
         run: npm run build
