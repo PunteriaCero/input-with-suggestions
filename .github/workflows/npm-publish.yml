@@ -20,10 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Setup Node.js 15
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '15.2.0'  
+          node-version: '16.20.0'  # Using a stable Node.js 16.x version
+          registry-url: 'https://registry.npmjs.org/'
           
       - name: Update package.json for compatible Angular version
         run: |
@@ -61,7 +62,7 @@ jobs:
       
       - name: Install Angular CLI globally and build
         run: |
-          npm install -g @angular/cli@15.2.0
+          npm install -g @angular/cli@14.2.0
           npx ng build input-with-suggestions-lib
 
       - name: Set Global Git Config
