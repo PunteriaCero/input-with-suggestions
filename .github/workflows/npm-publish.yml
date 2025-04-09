@@ -45,6 +45,22 @@ jobs:
             pkg.devDependencies["@angular-devkit/build-angular"] = "14.2.0";
             pkg.devDependencies["ng-packagr"] = "14.2.0"; // Pin to version 14.2.0
             pkg.devDependencies["typescript"] = "~4.6.4";
+            pkg.devDependencies["@angular/compiler"] = "14.2.0";
+            // Update peerDependencies
+            pkg.peerDependencies["@angular/core"] = "^14.0.0";
+            pkg.peerDependencies["@angular/common"] = "^14.0.0";
+            pkg.peerDependencies["@angular/forms"] = "^14.0.0";
+            
+            pkg.devDependencies["@angular/compiler-cli"] = "14.2.0";
+            pkg.devDependencies["@angular/core"] = "14.2.0";
+            pkg.devDependencies["@angular/common"] = "14.2.0";
+            pkg.devDependencies["@angular/platform-browser"] = "14.2.0";
+            pkg.devDependencies["@angular/platform-browser-dynamic"] = "14.2.0";
+            pkg.devDependencies["@angular/router"] = "14.2.0";
+            pkg.devDependencies["@angular/forms"] = "14.2.0";
+            pkg.devDependencies["@angular-devkit/build-angular"] = "14.2.0";
+            pkg.devDependencies["ng-packagr"] = "14.2.0"; // Pin to version 14.2.0
+            pkg.devDependencies["typescript"] = "~4.6.4";
             
             // Update peerDependencies
             pkg.peerDependencies["@angular/core"] = "^14.0.0";
@@ -159,12 +175,23 @@ jobs:
         run: |
           git config --global user.email "mcodesido@baufest.com"
           git config --global user.name "Mateo Codesido"
-          
-      - name: Clean install directory
+          # Install dependencies with specific flags for compatibility
+          npm install --legacy-peer-deps
         run: rm -rf node_modules package-lock.json
         
       - name: Build library directly
         run: |
+          # Remove the problematic dependency
+          node -e '
+            const fs = require("fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            delete pkg.devDependencies["@angular-devkit/build-ng-packagr"];
+            fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
+          '
+          
+          # Install dependencies with legacy peer deps
+          npm install --legacy-peer-deps
+          
           # Create necessary tsconfig files if they don't exist
           if [ ! -f "tsconfig.json" ]; then
             echo '{
@@ -285,9 +312,8 @@ jobs:
           echo "Updated ng-package.json:"
           cat ng-package.json
           
-          # Install and use specific ng-packagr version
-          npm install --no-save ng-packagr@14.2.0
-          npx ng-packagr@14.2.0 -p ng-package.json
+          # Build using ng-packagr directly
+          npx ng-packagr -p ng-package.json --no-ngcc
 
       - name: Build
         run: npm run build
