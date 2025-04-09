@@ -61,7 +61,7 @@ jobs:
       
       - name: Install Angular CLI globally and build
         run: |
-          npm install -g @angular/cli@14.2.0
+          npm install -g @angular/cli@15.2.0
           npx ng build input-with-suggestions-lib
 
       - name: Set Global Git Config
