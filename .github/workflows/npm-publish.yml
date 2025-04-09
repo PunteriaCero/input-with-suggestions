@@ -23,13 +23,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.20.0'  # Change back to Node.js 16.x which is more compatible with older packages
+          node-version: '16.20.0'  # Using Node.js 16.x which is compatible with your dependencies
           registry-url: 'https://registry.npmjs.org/'
-          
-      - name: Setup Python 2
-        uses: actions/setup-python@v4
-        with:
-          python-version: '2.7'  # Install Python 2.7 for node-sass
           
       - name: Update package.json for compatible Angular version
         run: |
@@ -164,8 +159,8 @@ jobs:
             cat ng-package.json
           fi
           
-          # Install dependencies with specific flags for compatibility
-          npm install --legacy-peer-deps
+          # Install just the packages needed for the build, not the entire dependency tree
+          npm install --no-save --legacy-peer-deps ng-packagr@4.7.1 @angular-devkit/build-ng-packagr@0.13.10 typescript@~3.2.2
           
           # Use ng-packagr directly with the existing configuration
           echo "Building with ng-packagr..."
