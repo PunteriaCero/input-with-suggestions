@@ -4,8 +4,15 @@
 name: Node.js Package
 
 on:
+  workflow_dispatch:
+    inputs:
+      example_input:
+        description: 'An example input'
+        required: false
+        default: 'default_value'
   release:
     types: [created]
+  
 
 jobs:
   publish-npm:
