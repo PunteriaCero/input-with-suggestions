@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.20.0'  # Using a stable Node.js 16.x version
+          node-version: '20.11.1'  # Updated to a compatible Node.js version
           registry-url: 'https://registry.npmjs.org/'
           
       - name: Update package.json for compatible Angular version
@@ -32,7 +32,7 @@ jobs:
             const fs = require("fs");
             const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
             
-            // Update all devDependencies
+            // Update all devDependencies to use Angular 14
             pkg.devDependencies["@angular/cli"] = "14.2.0";
             pkg.devDependencies["@angular/compiler"] = "14.2.0";
             pkg.devDependencies["@angular/compiler-cli"] = "14.2.0";
@@ -43,7 +43,7 @@ jobs:
             pkg.devDependencies["@angular/router"] = "14.2.0";
             pkg.devDependencies["@angular/forms"] = "14.2.0";
             pkg.devDependencies["@angular-devkit/build-angular"] = "14.2.0";
-            pkg.devDependencies["ng-packagr"] = "14.2.0";
+            pkg.devDependencies["ng-packagr"] = "14.2.0"; // Pin to version 14.2.0
             pkg.devDependencies["typescript"] = "~4.6.4";
             
             // Update peerDependencies
@@ -227,7 +227,67 @@ jobs:
             }' > tsconfig.lib.prod.json
           fi
 
-          npx ng-packagr -p ng-package.json
+          # Examine file structure
+          echo "Current directory structure:"
+          ls -la
+          
+          # Check if ng-package.json exists and display its contents
+          if [ -f "ng-package.json" ]; then
+            echo "Contents of ng-package.json:"
+            cat ng-package.json
+          else
+            echo "ng-package.json not found in current directory"
+            # Create a default ng-package.json if missing
+            echo '{
+              "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+              "dest": "dist",
+              "lib": {
+                "entryFile": "public-api.ts"
+              }
+            }' > ng-package.json
+            echo "Created default ng-package.json"
+          fi
+          
+          # Update ng-package.json to use correct paths
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            try {
+              const ngPkg = JSON.parse(fs.readFileSync("ng-package.json", "utf8"));
+              
+              // Check current directory structure to find the right entry file
+              let entryFile = "public-api.ts";
+              if (fs.existsSync("lib") && fs.readdirSync("lib").length > 0) {
+                entryFile = "lib/public-api.ts";
+              } else if (fs.existsSync("src") && fs.readdirSync("src").length > 0) {
+                entryFile = "src/public-api.ts";
+              }
+              
+              // Update ng-package.json with correct configuration format
+              const updatedConfig = {
+                "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+                "dest": "dist"
+              };
+              
+              // Set the correct lib structure
+              updatedConfig.lib = {
+                "entryFile": entryFile
+              };
+              
+              fs.writeFileSync("ng-package.json", JSON.stringify(updatedConfig, null, 2));
+              console.log("Updated ng-package.json with entryFile:", entryFile);
+            } catch (error) {
+              console.error("Error updating ng-package.json:", error);
+            }
+          '
+
+          # Show the updated configuration
+          echo "Updated ng-package.json:"
+          cat ng-package.json
+          
+          # Install and use specific ng-packagr version
+          npm install --no-save ng-packagr@14.2.0
+          npx ng-packagr@14.2.0 -p ng-package.json
 
       - name: Build
         run: npm run build
