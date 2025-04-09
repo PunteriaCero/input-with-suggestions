@@ -28,18 +28,21 @@ jobs:
         run: |
           git config --global user.email "mcodesido@baufest.com"
           git config --global user.name "Mateo Codesido"
-          
-      - name: Install Dependencies (without node-sass)
+      
+      - name: Install Dependencies without node-sass
         run: |
-          if [ ! -f package-lock.json ]; then
-            npm install --legacy-peer-deps --no-package-lock
-            npm uninstall node-sass --no-package-lock
-            npm install sass --save-dev --legacy-peer-deps --no-package-lock
-          else
-            npm ci --legacy-peer-deps
-            npm uninstall node-sass --no-package-lock
-            npm install sass --save-dev --legacy-peer-deps --no-package-lock
-          fi
+          # Skip node-sass during installation  
+          export SKIP_SASS_BINARY_DOWNLOAD_FOR_CI=true
+          export SASS_BINARY_SITE=https://github.com/sass/node-sass/releases/download
+          
+          # Use npm install with --ignore-scripts to prevent node-sass from building
+          npm install --ignore-scripts --legacy-peer-deps
+          
+          # Remove node-sass if it got installed
+          npm rm node-sass --no-save
+          
+          # Install other dependencies that might have been skipped due to --ignore-scripts
+          npm rebuild --legacy-peer-deps
 
       - name: Build
         run: npm run build
