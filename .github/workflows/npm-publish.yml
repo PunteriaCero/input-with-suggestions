@@ -63,6 +63,96 @@ jobs:
       - name: Install Angular CLI globally and build
         run: |
           npm install -g @angular/cli@14.2.0
+          
+          # Create necessary tsconfig files
+          echo '{
+            "compileOnSave": false,
+            "compilerOptions": {
+              "baseUrl": "./",
+              "outDir": "./dist/out-tsc",
+              "sourceMap": true,
+              "declaration": false,
+              "downlevelIteration": true,
+              "experimentalDecorators": true,
+              "module": "es2020",
+              "moduleResolution": "node",
+              "importHelpers": true,
+              "target": "es2015",
+              "typeRoots": [
+                "node_modules/@types"
+              ],
+              "lib": [
+                "es2018",
+                "dom"
+              ],
+              "skipLibCheck": true
+            },
+            "angularCompilerOptions": {
+              "enableI18nLegacyMessageIdFormat": false,
+              "strictInjectionParameters": true,
+              "strictInputAccessModifiers": true,
+              "strictTemplates": true
+            }
+          }' > tsconfig.json
+          
+          echo '{
+            "extends": "./tsconfig.json",
+            "compilerOptions": {
+              "outDir": "./out-tsc/lib",
+              "declaration": true,
+              "declarationMap": true,
+              "inlineSources": true,
+              "types": []
+            },
+            "exclude": [
+              "src/test.ts",
+              "**/*.spec.ts"
+            ]
+          }' > tsconfig.lib.json
+          
+          echo '{
+            "extends": "./tsconfig.lib.json",
+            "compilerOptions": {
+              "declarationMap": false
+            },
+            "angularCompilerOptions": {
+              "compilationMode": "partial"
+            }
+          }' > tsconfig.lib.prod.json
+          
+          # Create angular.json if missing
+          echo '{
+            "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+            "version": 1,
+            "newProjectRoot": "projects",
+            "projects": {
+              "input-with-suggestions-lib": {
+                "projectType": "library",
+                "root": ".",
+                "sourceRoot": "lib",
+                "prefix": "lib",
+                "architect": {
+                  "build": {
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
+                    "options": {
+                      "project": "ng-package.json"
+                    },
+                    "configurations": {
+                      "production": {
+                        "tsConfig": "tsconfig.lib.prod.json"
+                      },
+                      "development": {
+                        "tsConfig": "tsconfig.lib.json"
+                      }
+                    },
+                    "defaultConfiguration": "production"
+                  }
+                }
+              }
+            }
+          }' > angular.json
+          
+          # Now run the build
           npx ng build input-with-suggestions-lib
 
       - name: Set Global Git Config
