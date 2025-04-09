@@ -1,5 +1,6 @@
 {
   "name": "input-with-suggestions-lib",
+<<<<<<< Updated upstream
   "version": "0.1.8",
   "description": "A customizable Angular component for text input with dynamic suggestions",
   "keywords": ["angular", "input", "suggestions", "autocomplete", "component", "ui"],
@@ -8,6 +9,9 @@
     "email": "mscodesido@gmail.com"
   },
   "license": "MIT",
+=======
+  "version": "0.1.9",
+>>>>>>> Stashed changes
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
