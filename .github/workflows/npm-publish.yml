@@ -58,6 +58,10 @@ jobs:
       - name: Clean install directory
         run: rm -rf node_modules package-lock.json
         
+      - name: Build library directly
+        run: |
+          npx ng-packagr -p ng-package.json
+
       - name: Build
         run: npm run build
 
