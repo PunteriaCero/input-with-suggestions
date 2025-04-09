@@ -1,8 +1,15 @@
 {
   "name": "input-with-suggestions-lib",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A customizable Angular component for text input with dynamic suggestions",
-  "keywords": ["angular", "input", "suggestions", "autocomplete", "component", "ui"],
+  "keywords": [
+    "angular",
+    "input",
+    "suggestions",
+    "autocomplete",
+    "component",
+    "ui"
+  ],
   "author": {
     "name": "Mateo Codesido",
     "email": "mscodesido@gmail.com"
@@ -36,7 +43,7 @@
     "@angular/forms": ">=7.2.0"
   },
   "dependencies": {
-    "tslib": "^1.9.0"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.0.0",
