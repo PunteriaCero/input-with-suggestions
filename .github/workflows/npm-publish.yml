@@ -23,8 +23,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.11.1'  # Updated to a compatible Node.js version
+          node-version: '16.20.0'  # Change back to Node.js 16.x which is more compatible with older packages
           registry-url: 'https://registry.npmjs.org/'
+          
+      - name: Setup Python 2
+        uses: actions/setup-python@v4
+        with:
+          python-version: '2.7'  # Install Python 2.7 for node-sass
           
       - name: Update package.json for compatible Angular version
         run: |
@@ -32,24 +37,8 @@ jobs:
             const fs = require("fs");
             const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
             
-            // Update all devDependencies to use Angular 14
-            pkg.devDependencies["@angular/cli"] = "14.2.0";
-            pkg.devDependencies["@angular/compiler"] = "14.2.0";
-            pkg.devDependencies["@angular/compiler-cli"] = "14.2.0";
-            pkg.devDependencies["@angular/core"] = "14.2.0";
-            pkg.devDependencies["@angular/common"] = "14.2.0";
-            pkg.devDependencies["@angular/platform-browser"] = "14.2.0";
-            pkg.devDependencies["@angular/platform-browser-dynamic"] = "14.2.0";
-            pkg.devDependencies["@angular/router"] = "14.2.0";
-            pkg.devDependencies["@angular/forms"] = "14.2.0";
-            pkg.devDependencies["@angular-devkit/build-angular"] = "14.2.0";
-            pkg.devDependencies["ng-packagr"] = "14.2.0"; // Pin to version 14.2.0
-            pkg.devDependencies["typescript"] = "~4.6.4";
-            
-            // Update peerDependencies
-            pkg.peerDependencies["@angular/core"] = "^14.0.0";
-            pkg.peerDependencies["@angular/common"] = "^14.0.0";
-            pkg.peerDependencies["@angular/forms"] = "^14.0.0";
+            // Keep Angular versions consistent with what's in package.json (Angular 7)
+            // Do not upgrade to Angular 14 which creates dependency conflicts
             
             fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
           '
@@ -175,18 +164,21 @@ jobs:
             cat ng-package.json
           fi
           
-          # Install compatible versions of dependencies
-          npm install --no-save --legacy-peer-deps ng-packagr@4.7.1 @angular-devkit/build-ng-packagr@0.13.10
+          # Install dependencies with specific flags for compatibility
+          npm install --legacy-peer-deps
           
-          # Use ng-packagr directly instead of changing ng-package.json
-          # We'll use the existing ng-package.json file exactly as it is
+          # Use ng-packagr directly with the existing configuration
           echo "Building with ng-packagr..."
           npx ng-packagr -p ng-package.json
-
-      - name: Build
-        run: npm run build || true  # Continue even if this fails
-
+          
       - name: Publish Package
-        run: npm publish
+        run: |
+          # Check if the dist directory contains the package files
+          echo "Contents of dist directory:"
+          ls -la dist
+          
+          # Navigate to the dist directory and publish from there
+          cd dist/input-with-suggestions-lib
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
