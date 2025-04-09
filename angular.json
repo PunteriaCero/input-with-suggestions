@@ -21,7 +21,8 @@
             "development": {
               "tsConfig": "./tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
