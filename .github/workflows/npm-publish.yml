@@ -29,20 +29,23 @@ jobs:
           git config --global user.email "mcodesido@baufest.com"
           git config --global user.name "Mateo Codesido"
       
-      - name: Install Dependencies without node-sass
+      - name: Install Dependencies
         run: |
-          # Skip node-sass during installation  
+          # Force npm to use legacy peer deps to handle TypeScript version conflicts
+          npm config set legacy-peer-deps true
+          
+          # Skip node-sass during installation
           export SKIP_SASS_BINARY_DOWNLOAD_FOR_CI=true
           export SASS_BINARY_SITE=https://github.com/sass/node-sass/releases/download
           
-          # Use npm install with --ignore-scripts to prevent node-sass from building
-          npm install --ignore-scripts --legacy-peer-deps
+          # Install dependencies with force flag to resolve conflicts
+          npm install --legacy-peer-deps --force
           
-          # Remove node-sass if it got installed
+          # Remove node-sass to prevent Python dependency issues
           npm rm node-sass --no-save
           
-          # Install other dependencies that might have been skipped due to --ignore-scripts
-          npm rebuild --legacy-peer-deps
+          # Install missing dependencies if any
+          npm i --package-lock=false --legacy-peer-deps --force
 
       - name: Build
         run: npm run build
